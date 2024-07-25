@@ -1,16 +1,31 @@
 package br.com.gustavoakira.microsells.category.model;
 
 import br.com.gustavoakira.microsells.category.exception.ValidationException;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Data
+@NoArgsConstructor
 public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String name;
     public Category(String name){
 
+        this.name = name;
+        validate();
+    }
+
+    public Category(Long id,String name){
+        this.id = id;
         this.name = name;
         validate();
     }

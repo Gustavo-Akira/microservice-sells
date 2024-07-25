@@ -1,28 +1,82 @@
 package br.com.gustavoakira.microsells.category.service;
 
-import org.springframework.boot.test.context.SpringBootTest;
+import br.com.gustavoakira.microsells.category.model.Category;
+import br.com.gustavoakira.microsells.category.repository.CategoryRepository;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@SpringBootTest
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@ExtendWith(SpringExtension.class)
 public class CategoryServiceTest {
-    void shouldSaveIfCategoryIsValid(){
+    private static  CategoryService service;
+    @BeforeAll
+    static  void setup(){
+        service = new CategoryService(repository);
 
     }
-    void shouldDeleteCategoryIfExists(){
 
+    @MockBean
+    private static CategoryRepository repository;
+
+    void shouldSaveWhenCategoryIsValid(){
+        Category category = new Category("test");
+        Mockito.when(repository.save(category)).thenReturn(new Category(1L,"test"));
+        assertNotNull(service.saveCategory(category).getId());
     }
+    void shouldDeleteCategoryWhenExists(){
+        Category category = new Category(1L,"test");
+        Mockito.when(repository.findById(1L)).thenReturn(Optional.of(category));
+        assertEquals(new Category(1L,"test"),service.deleteById(1L));
+    }
+
+    void shouldUpdateWhenCategoryExists(){
+        Category category = new Category(1L,"akira");
+        Mockito.when(repository.save(category)).thenReturn(category);
+        Mockito.when(repository.findById(1L)).thenReturn(Optional.of(new Category(1L, "test")));
+        assertEquals(category,service.updateCategory(1L,category));
+    }
+
     void shouldThrowNotFoundExceptionWhenDeleteNonExistentCategory(){
-
+        Mockito.when(repository.findById(1L)).thenReturn(Optional.empty());
+        assertThrows(NoSuchElementException.class,()->service.deleteById(1L));
     }
 
     void shouldThrowNotFoundExceptionWhenGettingAnNonExistentCategory(){
-
+        Mockito.when(repository.findById(1L)).thenReturn(Optional.empty());
+        assertThrows(NoSuchElementException.class,()->service.getCategoryById(1L));
     }
 
-    void shouldGetEmptyArrayWhenFindAllAndDoesNotHaveAnyCategory(){
-
+    void shouldGetEmptyPageWhenFindAllAndDoesNotHaveAnyCategory(){
+        Mockito.when(repository.findAll(Pageable.ofSize(5).withPage(0))).thenReturn(Page.empty());
+        assertEquals(Page.empty(),service.getAll());
     }
 
-    void shouldGetArrayWithPaginationWhenFindAllAndHaveOneOrMoreCategories(){
-
+    void shouldGetPageWithElementsWhenFindAllAndHaveOneOrMoreCategories(){
+        List<Category> categories = new ArrayList<>();
+        for (int i=0;i < 5;i++) {
+            Category category = new Category((long) i,"category "+i);
+            categories.add(category);
+        }
+        Mockito.when(repository.findAll(Pageable.ofSize(5).withPage(1))).thenReturn(new PageImpl<Category>(categories));
+        assertEquals(categories, service.getAll(1).toList());
     }
+
+    void shouldGetCategoryWhenCategoryExists(){
+        Mockito.when(repository.findById(1L)).thenReturn(Optional.of(new Category(1L, "test")));
+        assertEquals(new Category(1L,"test"),service.getCategoryById(1L));
+    }
+
+
 }
