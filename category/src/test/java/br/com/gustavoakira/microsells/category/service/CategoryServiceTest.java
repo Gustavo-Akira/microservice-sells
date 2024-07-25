@@ -7,4 +7,22 @@ public class CategoryServiceTest {
     void shouldSaveIfCategoryIsValid(){
 
     }
+    void shouldDeleteCategoryIfExists(){
+
+    }
+    void shouldThrowNotFoundExceptionWhenDeleteNonExistentCategory(){
+
+    }
+
+    void shouldThrowNotFoundExceptionWhenGettingAnNonExistentCategory(){
+
+    }
+
+    void shouldGetEmptyArrayWhenFindAllAndDoesNotHaveAnyCategory(){
+
+    }
+
+    void shouldGetArrayWithPaginationWhenFindAllAndHaveOneOrMoreCategories(){
+
+    }
 }
