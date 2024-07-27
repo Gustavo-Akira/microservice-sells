@@ -1,6 +1,7 @@
 package br.com.gustavoakira.microsells.category.model;
 
 import br.com.gustavoakira.microsells.category.exception.ValidationException;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @Data
 @NoArgsConstructor
+@Entity
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
