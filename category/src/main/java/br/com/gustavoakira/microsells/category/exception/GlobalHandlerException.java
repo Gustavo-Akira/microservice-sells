@@ -18,4 +18,11 @@ public class GlobalHandlerException {
 
         return new ResponseEntity<ErrorResponseDTO>(dto, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(value = {ValidationException.class})
+    public ResponseEntity<ErrorResponseDTO> notFound(ValidationException exception){
+        ErrorResponseDTO dto = new ErrorResponseDTO(LocalDateTime.now(),HttpStatus.BAD_REQUEST.value(),HttpStatus.BAD_REQUEST.name(), Collections.singletonList(exception.getMessage()));
+
+        return new ResponseEntity<ErrorResponseDTO>(dto, HttpStatus.BAD_REQUEST);
+    }
 }

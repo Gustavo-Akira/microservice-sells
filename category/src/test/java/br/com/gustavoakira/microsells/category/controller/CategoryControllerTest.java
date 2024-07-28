@@ -47,7 +47,8 @@ public class CategoryControllerTest {
 
     @Test
     void shouldReturn400WhenSavingInvalidCategory() throws Exception {
-        mockMvc.perform(post("/api/v1/categories/").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(category))).andExpect(status().is4xxClientError()).andExpect(jsonPath("code").value(400)).andExpect(jsonPath("status").value("BAD_FORMAT")).andExpect(jsonPath("error").isArray());;
+
+        mockMvc.perform(post("/api/v1/categories/").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(new Category()))).andExpect(status().is4xxClientError()).andExpect(jsonPath("code").value(400)).andExpect(jsonPath("status").value("BAD_REQUEST")).andExpect(jsonPath("error").isArray());;
     }
 
     @Test
