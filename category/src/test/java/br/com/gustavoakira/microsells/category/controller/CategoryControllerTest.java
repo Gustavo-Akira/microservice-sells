@@ -36,17 +36,17 @@ public class CategoryControllerTest {
 
     @Test
     void shouldReturn404WhenGettingNonExistentCategory() throws Exception {
-        mockMvc.perform(get("/api/v1/categories/1")).andExpect(status().isNotFound());
+        mockMvc.perform(get("/api/v1/categories/1")).andExpect(status().isNotFound()).andExpect(jsonPath("timestamp").isString()).andExpect(jsonPath("code").value(404)).andExpect(jsonPath("status").value("NOT_FOUND")).andExpect(jsonPath("error").isString());
     }
 
     @Test
     void shouldReturn404WhenDeletingNonExistentCategory() throws Exception {
-        mockMvc.perform(delete("/api/v1/categories/1")).andExpect(status().isNotFound());;
+        mockMvc.perform(delete("/api/v1/categories/1")).andExpect(status().isNotFound()).andExpect(jsonPath("timestamp").isString()).andExpect(jsonPath("code").value(404)).andExpect(jsonPath("status").value("NOT_FOUND")).andExpect(jsonPath("error").isString());
     }
 
     @Test
     void shouldReturn404WhenUpdatingNonExistentCategory() throws Exception {
-        mockMvc.perform(put("/api/v1/categories/1").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(category))).andExpect(status().isNotFound());
+        mockMvc.perform(put("/api/v1/categories/1").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(category))).andExpect(status().isNotFound()).andExpect(jsonPath("timestamp").isString()).andExpect(jsonPath("code").value(404)).andExpect(jsonPath("status").value("NOT_FOUND")).andExpect(jsonPath("error").isString());
     }
 
     @Test
