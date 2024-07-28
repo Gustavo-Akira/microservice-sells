@@ -2,6 +2,7 @@ package br.com.gustavoakira.microsells.category.controller;
 
 import br.com.gustavoakira.microsells.category.model.Category;
 import br.com.gustavoakira.microsells.category.repository.CategoryRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,11 @@ public class CategoryControllerTest {
     @Test
     void shouldReturn404WhenDeletingNonExistentCategory() throws Exception {
         mockMvc.perform(delete("/api/v1/categories/1")).andExpect(status().isNotFound()).andExpect(jsonPath("timestamp").isString()).andExpect(jsonPath("code").value(404)).andExpect(jsonPath("status").value("NOT_FOUND")).andExpect(jsonPath("error").isArray());
+    }
+
+    @Test
+    void shouldReturn400WhenSavingInvalidCategory() throws Exception {
+        mockMvc.perform(post("/api/v1/categories/").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(category))).andExpect(status().is4xxClientError()).andExpect(jsonPath("code").value(400)).andExpect(jsonPath("status").value("BAD_FORMAT")).andExpect(jsonPath("error").isArray());;
     }
 
     @Test
