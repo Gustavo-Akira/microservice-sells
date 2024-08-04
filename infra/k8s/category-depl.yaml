@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: category-depl
+spec:
+  selector:
+    matchLabels:
+      app: category-depl
+  template:
+    metadata:
+      labels:
+        app: category-depl
+    spec:
+      containers:
+      - name: category-depl
+        image: akirauekita2002/micro-sells-category
+        ports:
+        - containerPort: 8080
