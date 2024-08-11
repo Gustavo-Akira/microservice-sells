@@ -81,7 +81,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-		  <!-- SnakeYAML 1.32 addresses CVE-2022-25857 and CVE-2022-38752 -->
 		  <dependency>
 			<groupId>org.yaml</groupId>
 			<artifactId>snakeyaml</artifactId>
@@ -110,12 +109,9 @@
 				<version>${jib.maven-plugin-version}</version>
 				<configuration>
 				  <from>
-					<image>openjdk:17-jdk-alpine</image>
+					<image>openjdk:17-alpine</image>
 				  </from>
 				  <container>
-					<jvmFlags>
-					  <jvmFlag>-Djava.security.egd=file:/dev/./urandom</jvmFlag>
-					</jvmFlags>
 				  </container>
 				</configuration>
 			  </plugin>
