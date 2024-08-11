@@ -13,6 +13,17 @@ spec:
     spec:
       containers:
       - name: category-depl
-        image: akirauekita2002/micro-sells-category
+        image: akira2002/micro-sells-category
         ports:
         - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: category-service
+spec:
+  selector:
+    app: category-depl
+  ports:
+  - port: 8080
+    targetPort: 8080

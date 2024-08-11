@@ -10,5 +10,8 @@ build:
     push: false
   artifacts:
     - image: akira2002/micro-sells-category
-      jib: {}
+      jib: {
+      
+      }
       context: category
+  
